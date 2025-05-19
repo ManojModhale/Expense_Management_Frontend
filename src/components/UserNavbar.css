@@ -1,0 +1,103 @@
+/* Navbar container */
+.navbar {
+  display: flex !important; /* Ensure it remains flex */
+  justify-content: space-between !important; /* Override Bootstrap's justify-content */
+  align-items: center !important; /* Align items vertically */
+  background-color: #2c3e50 !important; /* Custom background */
+  padding: 15px 30px !important; /* Override Bootstrap's padding */
+  color: #ecf0f1 !important;
+  font-family: Arial, sans-serif !important;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: left !important;
+}
+
+/* Brand */
+.navbar-brand a {
+  text-decoration: none !important;
+  color: #ecf0f1 !important;
+  font-size: 1.5rem !important;
+  font-weight: bold !important;
+  transition: color 0.2s ease !important;
+}
+
+.navbar-brand a:hover {
+  color: #3498db !important; /* Change color on hover */
+}
+
+/* Navigation links container */
+.navbar-nav {
+  list-style: none !important;
+  display: flex !important; /* Override Bootstrap's block display */
+  flex-direction: row !important;
+  gap: 30px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  align-items: center !important;
+}
+
+/* Individual nav items */
+.nav-item {
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Nav links */
+.nav-link {
+  text-decoration: none !important;
+  color: #ecf0f1 !important;
+  padding: 8px 15px !important;
+  border-radius: 4px !important;
+  transition: background-color 0.3s ease, color 0.3s ease !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #fff !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  transform: scale(1.05) !important;
+}
+
+/* Style for active nav link */
+.nav-link.active {
+  font-weight: bold !important;
+}
+
+/* Logout button styled as nav-link */
+.logout-button {
+  background-color: #e74c3c !important;
+  color: white !important;
+  border: none !important;
+  padding: 8px 15px !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.logout-button:hover {
+  background-color: #c0392b !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  .navbar-nav {
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: 100% !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .nav-item {
+    width: 100% !important;
+  }
+  .nav-link {
+    width: 100% !important;
+    text-align: center !important;
+  }
+}

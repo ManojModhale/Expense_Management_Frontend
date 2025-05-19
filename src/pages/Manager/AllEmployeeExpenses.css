@@ -1,0 +1,196 @@
+/* AllEmployeeExpenses.css */
+
+.all-employee-expenses-container {
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.page-title {
+    font-size: 28px;
+    color: #343a40;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 15px;
+}
+
+.tabs-container {
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.loading-message, .error-message, .no-expenses-message {
+    font-size: 18px;
+    color: #555;
+    text-align: center;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-top: 20px;
+}
+
+.error-message {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.expense-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Crucial for consistent column widths */
+}
+
+.expense-table thead {
+    background-color: #f1f1f1;
+}
+
+/* Base styles for all table cells */
+.expense-table th, .th,
+.expense-table td, .td {
+    padding: 15px 20px;
+    text-align: left;
+    font-size: 14px;
+    color: #343a40;
+    border-bottom: 1px solid #dee2e6;
+    word-wrap: break-word; /* Allows long words to break */
+    white-space: normal; /* Ensures text wraps naturally */
+    vertical-align: top; /* Align content to the top */
+}
+
+/* Header specific styles */
+.expense-table th, .th {
+    color: #495057;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.expense-table tbody tr:hover {
+    background-color: #f0faff; /* Light blue on hover */
+}
+
+.action-buttons-container {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+}
+
+.action-button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.action-button.approve {
+    background-color: #28a745; /* Green */
+    color: #fff;
+}
+
+.action-button.reject {
+    background-color: #dc3545; /* Red */
+    color: #fff;
+}
+
+.status-text {
+    font-weight: bold;
+    color: #6c757d;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+/* --- Column Width Adjustments --- */
+
+/* Fixed Width Columns */
+.fixed-width-id {
+    width: 70px;
+}
+
+.fixed-width-date {
+    width: 120px;
+}
+
+.fixed-width-category {
+    width: 120px;
+}
+
+.fixed-width-amount {
+    width: 100px;
+    text-align: left;
+}
+
+.fixed-width-receipt {
+    width: 100px;
+    text-align: center;
+}
+
+.fixed-width-actions {
+    width: 120px;
+    white-space: nowrap;
+}
+
+/* Flexible Width Columns - Using minimums and letting them expand */
+.flexible-width-name {
+    min-width: 100px; /* Minimum width for Name */
+    width: auto; /* Let it expand */
+}
+
+.flexible-width-requester {
+    min-width: 100px; /* Minimum width for Requester */
+    width: auto; /* Let it expand */
+}
+
+.flexible-width-description {
+    min-width: 250px; /* Generous minimum width for Description */
+    width: auto; /* Let it expand significantly */
+}
+
+.flexible-width-rejection-reason {
+    min-width: 180px;
+    width: auto;
+}
+
+/* Ensure actions cell has proper padding on the right */
+.MuiTableCell-root.action-buttons-cell {
+    padding-right: 20px !important;
+}
+
+/* This CSS will handle the 2-line truncation and ellipsis within the cell */
+.flexible-width-description .MuiTypography-root {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Important for Tooltip: Ensure text stays within its own space for hover to work */
+    white-space: normal;
+}
+
+/* Overrides for MUI TableCell default padding */
+.MuiTableCell-root {
+    padding: 0 !important; /* Reset MUI default padding */
+}
+
+/* Apply your custom padding from .td to all TableCells */
+.MuiTableCell-root.td, .MuiTableCell-root.th {
+    padding: 15px 20px !important;
+}

@@ -1,0 +1,33 @@
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  color: #f59e0b;
+  font-size: 1.85rem; 
+}
+
+.mobile-menu {
+  display: flex;
+}
+
+.mobile-menu-link {
+  text-decoration: none;
+  color: white;
+  
+}
+
+@media (min-width: 768px) {
+  .mobile-menu {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+}

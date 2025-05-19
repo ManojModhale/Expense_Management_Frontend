@@ -1,0 +1,45 @@
+.loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.8); /* Light overlay effect */
+  backdrop-filter: blur(5px); /* Slight blur for a modern look */
+  position: fixed; /* Make it cover the whole screen */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1050; /* Ensure it's above other content, like modals */
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #f3f3f3;
+  /*border-top: 4px solid #3498db;*/
+  border-radius: 50%;
+  /*animation: spin 1s linear infinite;*/
+  animation: spin 1.5s ease-in-out infinite;
+  border-top: 6px solid transparent;
+  border-image: linear-gradient(45deg, #3498db, #8e44ad);
+  border-image-slice: 1;
+  box-shadow: 0px 0px 10px rgba(52, 152, 219, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader-message {
+  margin-top: 20px; /* Space between spinner and message */
+  font-size: 1.2em;
+  color: #333;
+  font-weight: bold;
+}

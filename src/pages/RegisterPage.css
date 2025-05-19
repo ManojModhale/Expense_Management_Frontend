@@ -1,0 +1,41 @@
+.register-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 200vh;
+    min-height: 110vh;
+    background: linear-gradient(135deg, #6dd5ed, #2193b0);
+    padding: 1rem;
+}
+
+.register-form {
+    width: 100%;
+    max-width: 450px;
+    padding: 2.5rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.form-title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.register-submit-button {
+    margin-top: 1.5rem;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.MuiFormHelperText-root {
+    color: red;
+}
+
+.MuiInputBase-root {
+    border-radius: 5px;
+}

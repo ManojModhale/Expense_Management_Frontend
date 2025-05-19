@@ -1,0 +1,160 @@
+/* Global Styles */
+.landing-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #0f172a; /* Darker background for contrast */
+}
+
+/* Navbar */
+.main-content {
+    flex: 1;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #3b82f6, #6b21a8);
+    color: white;
+    padding: 4rem 2rem;
+    text-align: center;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+.hero-container {
+    max-width: 70rem;
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.hero-description {
+    font-size: 1.25rem;
+    color: #e2e8f0;
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    background-image: linear-gradient(to right, #8b5cf6, #3b82f6);
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 30px;
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+}
+
+.cta-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* About Us Section */
+.about-us-section {
+    padding: 4rem 2rem;
+    /*background-color: #1e293b;*/
+    color: white;
+}
+
+.about-us-container {
+    max-width: 80rem;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.about-us-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.about-us-description {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: #cbd5e1;
+}
+
+/* Features Section */
+.features-section {
+    padding: 4rem 2rem;
+}
+
+.features-container {
+    max-width: 80rem;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.features-title {
+    font-size: 2.5rem;
+    color: white;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Contact Section */
+.contact-section {
+    padding: 4rem 2rem;
+    /*background-color: #111827;*/
+    color: white;
+}
+
+.contact-container {
+    max-width: 50rem;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.contact-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+}
+
+.contact-description {
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+    color: #94a3b8;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.contact-input {
+    background-color: #f9fafb;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contact-submit-button {
+    align-self: center;
+    background-color: #2563eb;
+    color: white;
+    padding: 0.75rem 2.5rem;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+}
+
+.contact-submit-button:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
