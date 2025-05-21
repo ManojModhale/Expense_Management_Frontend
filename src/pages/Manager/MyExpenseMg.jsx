@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Form, Table, FormControl as Input, FormLabel as Label } from 'react-bootstrap';
+import { AddCircleOutline, InfoOutlined } from "@mui/icons-material"; // Import Material-UI icons
+import { Typography, Tooltip, Button as MuiButton, Paper } from "@mui/material";
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from "sweetalert2";
 import {
@@ -9,16 +11,11 @@ import {
     ModalTitle,
     ModalFooter,
 } from 'react-bootstrap';
+import './MgExpenseMg.css';
 //import { addExpense, getExpensesByEmployee } from '../../services/expenseService';
 import Loader from "../../components/Loader";
 import Notification from "../../components/Notification";
-
-// Mock Data for initial display
-// const initialExpenses = [
-//     { itemId: 1, itemName: 'Grocery Shopping', amount: 50.00, expenseDate: '2024-07-20', category: 'FOOD' },
-//     { itemId: 2, itemName: 'Fuel', amount: 30.00, expenseDate: '2024-07-19', category: 'TRAVEL' },
-//     { itemId: 3, itemName: 'Dinner', amount: 75.00, expenseDate: '2024-07-18', category: 'FOOD' },
-// ];
+import ExpenseReportModal from '../ExpenseReportModal';
 const API_BASE_URL = "http://localhost:8181/api";
 
 const categories = [
@@ -37,9 +34,9 @@ const ExpenseForm = ({
     //setNotification
 }) => {
     const [formData, setFormData] = useState({
+        name: initialExpense?.name || '',
         description: initialExpense?.description || '',
         amount: initialExpense?.amount || 0,
-        //date: initialExpense?.date || '',
         date: initialExpense?.date ? initialExpense.date.split('T')[0] : '', // Adjust for backend date format
         category: initialExpense?.category || 'FOOD',
     });
@@ -49,15 +46,16 @@ const ExpenseForm = ({
     useEffect(() => {
         if (initialExpense) {
             setFormData({
+                name: initialExpense.name,
                 description: initialExpense.description,
                 amount: initialExpense.amount,
-                //date: initialExpense.date,
                 date: initialExpense.date ? initialExpense.date.split('T')[0] : '', // Ensure format for date input
                 category: initialExpense.category,
             });
             //setDate(new Date(initialExpense.date));
         } else {
             setFormData({
+                name: '',
                 description: '',
                 amount: 0,
                 date: '',
@@ -74,7 +72,7 @@ const ExpenseForm = ({
 
     const handleSave = async (e) => {
         e.preventDefault();
-        if (!formData.description || !formData.date || !formData.amount || formData.amount <= 0) {
+        if (!formData.name || !formData.description || !formData.date || !formData.amount || Number(formData.amount) <= 0) {
             Swal.fire({
                 title: "Error",
                 text: "Please fill in all fields correctly, especially amount.",
@@ -117,8 +115,6 @@ const ExpenseForm = ({
             }
             const savedExpense = await response.json(); // Get the saved expense data (with ID)
 
-
-            //setFormData({ description: '', category: 'FOOD', amount: '', date: '' }); //clear form
             Swal.fire({
                 title: "Success",
                 text: `Expense ${initialExpense?.id ? 'updated' : 'added'} successfully!`,
@@ -126,7 +122,7 @@ const ExpenseForm = ({
                 timer: 3000,
                 confirmButtonText: "Continue",
             }).then(() => {
-                setFormData({ description: '', category: 'FOOD', amount: '', date: '' });
+                setFormData({name: '', description: '', category: 'FOOD', amount: '', date: '' });
                 onSave(savedExpense); // Pass the *saved* expense (with ID)
                 onClose();
             });
@@ -146,25 +142,24 @@ const ExpenseForm = ({
         }
 
     };
-    /*
-    const handleDateChange = (selectedDate) => {
-        setDate(selectedDate);
-        if (selectedDate) {
-            const formattedDate = selectedDate.toISOString().split('T')[0];
-            setFormData({
-                ...formData,
-                date: formattedDate,
-            });
-        }
-    };*/
 
     return (
         <Modal show={isOpen} onHide={onClose}>
-            <ModalHeader closeButton> {/* Added closeButton for better UX */}
+            <ModalHeader closeButton>
                 <ModalTitle>{initialExpense ? 'Edit Expense' : 'Add Expense'}</ModalTitle>
             </ModalHeader>
             <ModalBody>
                 <Form>
+                    <Form.Group className="mb-3">
+                        <Label>Name:</Label>
+                        <Input
+                            id="name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                        />
+                        </Form.Group>
                     <Form.Group className="mb-3">
                         <Label>Description:</Label>
                         <Input
@@ -232,7 +227,7 @@ const MyExpenseMg = () => {
     const [expenses, setExpenses] = useState([]);
     const [isAddEditOpen, setIsAddEditOpen] = useState(false);
     const [editingExpense, setEditingExpense] = useState(null); // Changed to null for clarity when no expense is being edited
-    //const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+    const [isReportModalOpen, setIsReportModalOpen] = useState(false);
     const [searchString, setSearchString] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -294,7 +289,7 @@ const MyExpenseMg = () => {
         setIsAddEditOpen(false); // Close modal
     }, [editingExpense]); // Depend on editingExpense to correctly differentiate add/edit
 
-    
+
     const handleDeleteExpense = useCallback(async (id) => {
         Swal.fire({
             title: "Are you sure?",
@@ -347,8 +342,9 @@ const MyExpenseMg = () => {
         return expenses.filter(expense => {
             // Text search filter (description or category)
             const matchesSearch = searchString === '' ||
-                expense.description.toLowerCase().includes(searchString.toLowerCase()) ||
-                expense.category.toLowerCase().includes(searchString.toLowerCase());
+                expense.name.toLowerCase().includes(searchString.toLowerCase());
+                //expense.description.toLowerCase().includes(searchString.toLowerCase()) ||
+                //expense.category.toLowerCase().includes(searchString.toLowerCase());
 
             // Category filter
             const matchesCategory = filterCategory === '' || expense.category === filterCategory;
@@ -378,33 +374,95 @@ const MyExpenseMg = () => {
         return <Loader message="Loading your expenses..." />;
     }
 
+    const rejectionReason = (status, reason) => {
+        const tooltipText = reason;
+        if (status === "REJECTED") {
+            return (
+                <Tooltip title={tooltipText} enterDelay={500} leaveDelay={200} placement="bottom-start" arrow>
+                    <Typography>
+                        {status} <InfoOutlined fontSize="small" sx={{ verticalAlign: 'middle', ml: 0.5 }} /> {/* Added info icon */}
+                    </Typography>
+                </Tooltip>
+            );
+        }
+        return <Typography>{status}</Typography>;
+    }
+    const renderDescription = (description) => {
+        //const MAX_DISPLAY_LENGTH = 80; // Character limit
+        const MAX_LINES = 2; // Maximum lines to show before truncation
+        const tooltipText = description;
+
+        if (!description) {
+            return 'N/A';
+        }
+
+        // A heuristic to determine if truncation is likely needed.
+        // You can adjust '50' or make it more sophisticated.
+        const needsTruncation = description.length > 50 || description.split('\n').length > MAX_LINES;
+
+        return (
+            <Tooltip
+                title={tooltipText}
+                enterDelay={500}
+                leaveDelay={200}
+                placement="bottom-start"
+                arrow
+                disableHoverListener={!needsTruncation} // Only enable tooltip if truncated
+            >
+                {/* Apply a class for consistent styling via CSS */}
+                <Typography variant="body2" className="expense-description-cell">
+                    {description}
+                </Typography>
+            </Tooltip>
+        );
+    };
 
     return (
         <div className="p-4">
-            <h2 className="text-2xl font-bold mb-4">My Personal Expenses</h2>
-            <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center my-3 gap-3">
-                <div className="d-flex gap-2">
-                    <Button className="btn btn-primary me-2" onClick={() => {
+            <Typography variant="h3" component="h1" gutterBottom className="title">
+                My Personal Expenses Manager
+            </Typography>
+
+            {/* Quick Actions Section */}
+            <div className="quick-links mb-4">
+                <MuiButton
+                    variant="contained"
+                    color="primary"
+                    startIcon={<AddCircleOutline />}
+                    sx={{ mr: 2, mb: { xs: 1, sm: 0 } }}
+                    onClick={(e) => {
+                        // e.preventDefault(); // Prevent Link navigation if you want to open modal
                         setIsAddEditOpen(true);
                         setEditingExpense(null);
-                    }}>Add Expense</Button>
-                    <Button className="btn btn-success" >Expense Report</Button> {/*onClick={() => setIsReportModalOpen(true)} */}
-                </div>
-                {/* Search and Filter Controls */}
-                <div className="d-flex flex-column flex-md-row align-items-md-center gap-2 flex-grow-1 justify-content-md-end">
-                    <Form.Control
-                        type="text"
-                        className="me-md-2"
-                        placeholder="Search by description or category"
-                        value={searchString}
-                        onChange={(e) => setSearchString(e.target.value)}
-                        style={{ width: 'auto', minWidth: '180px' }} // Limit width
-                    />
+                    }}
+                >
+                    Submit New Expense
+                </MuiButton>
+                <MuiButton
+                    variant="outlined"
+                    color="secondary"
+                    startIcon={<InfoOutlined />}
+                    onClick={() => setIsReportModalOpen(true)} // Uncomment if you want to open a modal
+                >
+                    View Expense Report
+                </MuiButton>
+            </div>
+
+            {error && (
+                <Notification
+                    message={error}
+                    type="error"
+                    onClose={() => setError(null)}
+                />
+            )}
+
+            {/* Search and Filter Controls */}
+            <div className="filter-controls-container d-flex flex-column flex-md-row justify-content-between align-items-md-center my-3 gap-3 flex-wrap">
+                <div className="d-flex flex-column flex-md-row align-items-md-center gap-2 flex-grow-1 filter-group">
                     <Form.Select
-                        className="me-md-2"
+                        className="filter-category-input"
                         value={filterCategory}
                         onChange={(e) => setFilterCategory(e.target.value)}
-                        style={{ width: 'auto', minWidth: '150px' }}
                     >
                         <option value="">All Categories</option>
                         {categories.map(cat => (
@@ -412,29 +470,51 @@ const MyExpenseMg = () => {
                         ))}
                     </Form.Select>
                     <Form.Control
-                        type="date"
-                        className="me-md-2"
-                        value={filterStartDate}
-                        onChange={(e) => setFilterStartDate(e.target.value)}
-                        placeholder="From Date"
-                        style={{ width: 'auto', minWidth: '160px' }}
+                        type="text"
+                        className="filter-input"
+                        placeholder="Search by name"
+                        value={searchString}
+                        onChange={(e) => setSearchString(e.target.value)}
                     />
-                    <Form.Control
-                        type="date"
-                        className="me-md-2"
-                        value={filterEndDate}
-                        onChange={(e) => setFilterEndDate(e.target.value)}
-                        placeholder="To Date"
-                        style={{ width: 'auto', minWidth: '160px' }}
-                    />
-                    <Button variant="info" onClick={handleClearFilters} >Clear Filters</Button>
+                </div>
+                <div className="d-flex flex-column flex-md-row align-items-md-center gap-2 flex-grow-1 justify-content-md-end filter-group">
+                    <div className="d-flex align-items-center gap-2 date-filter-group">
+                        <Label htmlFor="filterStartDate" className="date-label">From:</Label>
+                        <Form.Control
+                            id="filterStartDate"
+                            type="date"
+                            className="filter-date-input"
+                            value={filterStartDate}
+                            onChange={(e) => setFilterStartDate(e.target.value)}
+                        />
+                    </div>
+                    <div className="d-flex align-items-center gap-2 date-filter-group">
+                        <Label htmlFor="filterEndDate" className="date-label">To:</Label>
+                        <Form.Control
+                            id="filterEndDate"
+                            type="date"
+                            className="filter-date-input"
+                            value={filterEndDate}
+                            onChange={(e) => setFilterEndDate(e.target.value)}
+                        />
+                    </div>
+                    <MuiButton
+                        variant="contained"
+                        color="info"
+                        onClick={handleClearFilters}
+                        size="small"
+                        sx={{ minWidth: 'auto', padding: '6px 12px' }}
+                    >
+                        Clear Filters
+                    </MuiButton>
                 </div>
             </div>
 
-            <Table striped bordered hover responsive>
+            <Table striped bordered hover responsive className="mt-4">
                 <thead>
                     <tr>
                         <th>Id</th>
+                        <th>Name</th>
                         <th>Description</th>
                         <th>Amount</th>
                         <th>Date</th>
@@ -448,7 +528,8 @@ const MyExpenseMg = () => {
                         displayedExpenses.map((expense) => (
                             <tr key={expense.id}>
                                 <td>{expense.id}</td>
-                                <td>{expense.description}</td>
+                                <td>{expense.name}</td> {/*  */}
+                                <td>{renderDescription(expense.description)}</td>
                                 <td>₹{expense.amount ? expense.amount.toFixed(2) : '0.00'}</td>
                                 <td>{expense.date}</td>
                                 <td>{expense.category}</td>
@@ -457,45 +538,47 @@ const MyExpenseMg = () => {
                                         expense.status === 'APPROVED' ? 'text-success' :
                                             expense.status === 'REJECTED' ? 'text-danger' :
                                                 expense.status === 'PENDING' ? 'text-warning' :
-                                                    '' // Default or no special color if status is unknown
+                                                    ''
                                     }>
-                                        {expense.status}
+                                        {rejectionReason(expense.status, expense.rejectionReason)}
                                     </span>
                                 </td>
                                 <td>
                                     <div className="d-flex gap-2">
-                                        <Button
-                                            variant="primary"
-                                            size="sm"
+                                        <MuiButton
+                                            variant="contained"
+                                            color="primary"
+                                            size="small"
                                             onClick={() => {
                                                 setIsAddEditOpen(true);
                                                 setEditingExpense(expense);
                                             }}
+                                            disabled={expense.status == 'APPROVED'} // Disable edit if approved
                                         >
                                             Edit
-                                        </Button>
-                                        <Button
-                                            variant="danger"
-                                            size="sm"
+                                        </MuiButton>
+                                        <MuiButton
+                                            variant="contained"
+                                            color="error"
+                                            size="small"
                                             onClick={() => handleDeleteExpense(expense.id)}
-                                            disabled={loading} // Disable if any other action is loading
+                                            disabled={loading || expense.status == 'APPROVED'} // Disable delete if approved
                                         >
-                                            {loading ? 'Processing...' : 'Delete'} {/* More generic loading message */}
-                                        </Button>
+                                            {loading ? 'Processing...' : 'Delete'}
+                                        </MuiButton>
                                     </div>
                                 </td>
                             </tr>
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="7" className="text-center text-muted py-3">No expenses found matching your criteria.</td> {/* Updated colspan */}
+                            <td colSpan="7" className="text-center">No expenses found.</td>
                         </tr>
                     )}
                 </tbody>
             </Table>
 
-
-            <ExpenseForm
+            {/* <ExpenseForm
                 isOpen={isAddEditOpen}
                 onClose={() => {
                     setIsAddEditOpen(false);
@@ -504,6 +587,17 @@ const MyExpenseMg = () => {
                 onSave={handleSaveExpense}
                 initialExpense={editingExpense}
             //setNotification={setNotification}
+            /> */}
+            <ExpenseForm
+                isOpen={isAddEditOpen}
+                onClose={() => setIsAddEditOpen(false)}
+                onSave={handleSaveExpense}
+                initialExpense={editingExpense}
+            />
+            <ExpenseReportModal
+                isOpen={isReportModalOpen}
+                onClose={()=> setIsReportModalOpen(false)}
+                expenses={expenses}
             />
 
         </div>

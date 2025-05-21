@@ -31,7 +31,7 @@ function UserNavbar({ role }) {
       sessionStorage.clear();
       Swal.fire("Logged Out!", "You have been logged out.", "success").then(
         () => {
-          navigate("/login"); // Redirect to login page
+          navigate("/"); // Redirect to login page
         }
       );
     });

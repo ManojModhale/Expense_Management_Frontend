@@ -70,24 +70,6 @@ const EmployeeDashboard = ({ role }) => {
 
   const isDashboard = location.pathname === "/employee/dashboard";
 
-  // const DashboardContent = () => (
-  //   <div>
-  //     <h1>Employee Dashboard</h1>
-  //     <div className="dashboard-summary">
-  //       <p>Total Expenses: {expenses.length}</p>
-  //       <p>
-  //         Pending: {expenses.filter((e) => e.status === "PENDING").length}
-  //       </p>
-  //       <p>
-  //         Approved: {expenses.filter((e) => e.status === "APPROVED").length}
-  //       </p>
-  //       <p>
-  //         Rejected: {expenses.filter((e) => e.status === "REJECTED").length}
-  //       </p> 
-  //     </div>
-  //   </div>
-  //  );
-
   const DashboardContent = () => {
     const pendingExpenses = expenses.filter((e) => e.status === "PENDING");
     const approvedExpenses = expenses.filter((e) => e.status === "APPROVED");
@@ -108,32 +90,6 @@ const EmployeeDashboard = ({ role }) => {
         <Typography variant="h4" component="h1" gutterBottom className="dashboard-title">
           Welcome to Your Employee Dashboard
         </Typography>
-
-        {/* Quick Actions Section 
-        <Paper elevation={2} className="dashboard-section quick-actions">
-          <Typography variant="h6" component="h2" gutterBottom>
-            Quick Actions
-          </Typography>
-          <Button
-            component={Link}
-            to="/employee/add-expense" // Make sure this route is correct
-            variant="contained"
-            color="primary"
-            startIcon={<AddCircleOutline />}
-            sx={{ mr: 2, mb: { xs: 1, sm: 0 } }} // Add margin bottom for small screens
-          >
-            Submit New Expense
-          </Button>
-          <Button
-            component={Link}
-            to="/employee/my-expense" // Make sure this route is correct for all expenses
-            variant="outlined"
-            color="secondary"
-            startIcon={<InfoOutlined />}
-          >
-            View All My Expenses
-          </Button>
-        </Paper>  */}
 
         {/* My Tasks Section */}
         <Paper elevation={2} className="dashboard-section my-tasks">
@@ -194,7 +150,8 @@ const EmployeeDashboard = ({ role }) => {
               Expense Categories
             </Typography>
             {pieChartData.length > 0 ? (
-              <PieChart width={300} height={300}> {/*  */}
+              <div className="pie-chart-container">
+              <PieChart width={250} height={250}> 
                 <Pie
                   data={pieChartData}
                   cx="50%"
@@ -210,6 +167,15 @@ const EmployeeDashboard = ({ role }) => {
                 </Pie>
                 <Tooltip />
               </PieChart>
+              <div className="pie-chart-legend">
+                  {pieChartData.map((entry, index) => (
+                    <div key={`legend-${index}`} className="legend-item">
+                      <div className="legend-color" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
+                      <Typography variant="body2">{entry.name}</Typography>
+                    </div>
+                  ))}
+                </div>
+              </div>
             ) : (
               <Typography variant="body2" color="textSecondary" style={{ textAlign: 'center', marginTop: 16 }}>
                 No expense data available for chart.
@@ -231,8 +197,8 @@ const EmployeeDashboard = ({ role }) => {
             <Typography variant="body2" className="announcement-content">
               Please be advised that the expense management system will undergo scheduled maintenance on May 22nd, 2025, from 10:00 PM to 12:00 AM IST. During this time, the system will be temporarily unavailable. We apologize for any inconvenience this may cause.
             </Typography>
-            <Divider sx={{ my: 2 }} />
-            <Typography variant="subtitle1" className="guideline-title">
+            <Divider sx={{ color: "primary.main", my: 1 }} >Expense Announcements</Divider>
+            <Typography variant="subtitle1" style={{textAlign: 'left'}} className="guideline-title">
               Expense Reporting Guidelines <span style={{ fontSize: '0.8em', color: '#888' }}>(Last Updated: {new Date().toLocaleDateString()})</span>
             </Typography>
             <List dense>
@@ -252,9 +218,28 @@ const EmployeeDashboard = ({ role }) => {
                 <ListItemText primary="⏰ Submit your expense reports within 5 business days of incurring the expense to ensure timely processing." />
               </ListItem>
             </List>
-            <Button component={Link} to="/employee/expense-policy" size="small" color="primary" variant="outlined">
+            {/* <Button component={Link} to="/employee/expense-policy" size="small" color="primary" variant="outlined">
               View Full Expense Policy
-            </Button>
+            </Button> */}
+          </div>
+          {/* Resources & Policies Section */}
+        <div className="dashboard-section policy-links">
+          <Typography variant="h6" component="h2" gutterBottom className="guideline-title">
+            Resources & Policies : 
+          </Typography>
+          <List dense>
+            <ListItem>
+              <ListItemText>
+                <Link to="/employee/expense-policy">Company Expense Policy</Link>
+              </ListItemText>
+            </ListItem>
+            <ListItem>
+              <ListItemText>
+                <Link to="/employee/faq">Expense Management FAQ</Link>
+              </ListItemText>
+            </ListItem>
+            {/* Add more links as needed */}
+          </List>
           </div>
         </Paper>
       </div>

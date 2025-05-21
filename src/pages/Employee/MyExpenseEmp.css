@@ -1,0 +1,225 @@
+/* MyExpenseEmp.css */
+
+.title {
+    color: #1976d2; /* Material-UI primary color for a consistent look */
+    margin-bottom: 1.5rem;
+    text-align: center; /* Center the title */
+    text-decoration-line: underline;
+}
+
+/* Quick Actions Section Styling */
+.quick-links {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap to the next line */
+    gap: 15px; /* Spacing between buttons */
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px; /* Space below the quick actions */
+    border-radius: 8px; /* Slightly rounded corners */
+    background-color: #e9f0f7; /* Light background for quick actions */
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+}
+
+/* Override default Material-UI button styles within quick-actions if needed */
+.quick-links .MuiButton-root {
+    padding: 10px 20px;
+    font-size: 1.05em;
+    border-radius: 25px; /* Pill-shaped buttons */
+}
+
+.quick-actions .MuiButton-root:hover {
+    background-color: rgba(0, 0, 0, 0.08); /* Subtle hover */
+    transform: scale(1.02); /* Slight zoom */
+    transition: all 0.2s ease-in-out;
+}
+
+/* Filter Controls Styling */
+/* Main container for all filter controls */
+.filter-controls-container {
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    flex-wrap: wrap; /* Allows sections to wrap */
+    gap: 15px; /* Spacing between filter groups */
+    padding: 15px;
+    background-color: #f8f9fa; /* Light background for the filter section */
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Individual filter groups (e.g., search/category, date inputs) */
+.filter-group {
+    display: flex;
+    flex-wrap: wrap; /* Allows items within the group to wrap */
+    gap: 10px; /* Spacing between inputs/selects within a group */
+    flex-grow: 1; /* Allow groups to take available space */
+    align-items: center;
+}
+
+/*
+.filter-category-input {
+    flex-grow: 0;
+    width: 200px;
+    max-width: 100%;
+    border: 1px solid #495057;
+}*/
+
+/* Specific styling for the standard text/select inputs 
+.filter-input {
+    flex-grow: 0; 
+    width: 350px; 
+    max-width: 100%; 
+    border: 1px solid #495057;
+}*/
+
+/* Styling for date inputs 
+.filter-date-input {
+    flex-grow: 0;
+    width: 200px; 
+    max-width: 100%;
+    border: 1px solid #495057;
+}*/
+
+/* Ensure form controls take full width on small screens */
+.filter-category-input,
+.filter-input,
+.filter-date-input,
+.form-control,
+.form-select {
+    width: auto; /* Allow content to dictate width if no max-width */
+    flex-grow: 1; /* Allow to grow within flex container */
+    min-width: 150px; /* Prevent shrinking too much */
+}
+
+/* Specific widths for desktop view, but allow flexibility */
+@media (min-width: 768px) {
+    .filter-category-input {
+        width: 180px; /* Adjusted width for category select */
+        flex-grow: 0;
+    }
+    .filter-input {
+        width: 300px; /* Adjusted width for search input */
+        flex-grow: 0;
+    }
+    .filter-date-input {
+        width: 180px; /* Adjusted width for date inputs */
+        flex-grow: 0;
+    }
+}
+
+/* Date label styling */
+.date-filter-group .date-label {
+    margin-right: 5px; 
+    white-space: nowrap; 
+    margin-bottom: 0; 
+}
+
+/* Adjust MuiButton within filter controls */
+.filter-controls-container .MuiButton-root {
+    min-width: auto;
+    padding: 6px 12px;
+}
+
+
+/* Table styling for better visual appeal */
+.table {
+    margin-top: 1.5rem; /* Space above the table */
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.01); /* Light shadow for table */
+    border-radius: 8px;
+    overflow: hidden; /* Ensures rounded corners apply to content */
+}
+
+.table thead th {
+    background-color: #e2e6ea; /* Slightly darker grey header */
+    border-bottom: 2px solid #ced4da;
+    color: #343a40; /* Darker text for header */
+    font-weight: bold;
+    padding: 12px 15px; /* Consistent padding */
+    text-align: center;
+}
+
+.table tbody tr:hover {
+    background-color: #eaf2f8; /* Lighter blue hover for rows */
+}
+
+.table td, .table th {
+    vertical-align: middle; /* Center content vertically in table cells */
+    padding: 10px 15px; /* Adjusted padding for rows */
+}
+
+/* Specific styling for the description cell content */
+.expense-description-cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Set number of lines before truncating */
+    -webkit-box-orient: vertical;
+    white-space: normal;
+    word-break: break-word; /* Important for long words */
+    line-height: 1.4; /* Improve readability of wrapped text */
+    max-height: 2.8em; /* 2 lines * 1.4em line-height (approx) */
+}
+
+/* Optional: Target the actual table cell for description column */
+.table th:nth-child(3), /* Assuming Description is the 3rd column (adjust if you add 'Name') */
+.table td:nth-child(3) {
+    min-width: 180px; /* Ensure description column has a decent minimum width */
+    max-width: 350px; /* Prevent it from getting too wide if other columns are small */
+    cursor: pointer;
+}
+
+/* Optional: Target the actual table cell for Status column */
+.table th:nth-child(7), /* Assuming Description is the 3rd column (adjust if you add 'Name') */
+.table td:nth-child(7) {
+    min-width: 180px; /* Ensure description column has a decent minimum width */
+    max-width: 350px; /* Prevent it from getting too wide if other columns are small */
+    cursor: pointer;
+}
+
+/* Status Badges */
+.text-success {
+    color: #28a745 !important; /* Bootstrap green */
+    font-weight: bold;
+}
+
+.text-danger {
+    color: #dc3545 !important; /* Bootstrap red */
+    font-weight: bold;
+}
+
+.text-warning {
+    color: #ffc107 !important; /* Bootstrap yellow */
+    font-weight: bold;
+}
+
+/* Modal Styling */
+.modal-header {
+    background-color: #007bff; /* Primary color for modal header */
+    color: white;
+    border-bottom: none;
+    padding: 1rem 1.5rem; /* Adjusted padding */
+}
+
+.modal-title {
+    font-weight: bold;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    border-top: none;
+    padding-top: 0;
+    padding-bottom: 1.5rem;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Form control specific styles for consistency */
+.form-control, .form-select {
+    border-radius: 0.25rem; /* Bootstrap's default border-radius */
+    border: 1px solid #ced4da; /* Consistent border # */
+    padding: 0.375rem 0.75rem; /* Bootstrap's default padding */
+    width: 100%;
+}

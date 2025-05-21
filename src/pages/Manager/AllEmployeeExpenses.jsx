@@ -174,10 +174,10 @@ const AllEmployeeExpenses = () => {
                                 <TableRow key={expense.id} className="table-row">
                                     {/* MUI TableCell for data (td) */}
                                      <TableCell className="td fixed-width-id">{expense.id}</TableCell>
-                                    <TableCell className="td flexible-width-name">Bibwewadi Junction</TableCell>{/*{expense.name}*/}
+                                    <TableCell className="td flexible-width-name">{expense.name}</TableCell>{/**/}
                                     <TableCell className="td fixed-width-date">{expense.date}</TableCell>
                                     <TableCell className="td fixed-width-category">{expense.category}</TableCell>
-                                    <TableCell className="td fixed-width-amount">${expense.amount ? expense.amount.toFixed(2) : '0.00'}</TableCell>
+                                    <TableCell className="td fixed-width-amount">₹{expense.amount ? expense.amount.toFixed(2) : '0.00'}</TableCell>
                                     <TableCell className="td flexible-width-description">
                                         {renderDescription(expense.description)}
                                     </TableCell>

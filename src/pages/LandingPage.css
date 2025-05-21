@@ -3,24 +3,126 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #0f172a; /* Darker background for contrast */
+    background-color: #f8f9fa; /* Light background for overall consistency */
 }
 
-/* Navbar */
+/* Navbar Styles */
+.navbar {
+    background: linear-gradient(to right, #007bff, #0056b3); /* A more standard blue gradient */
+    padding: 15px 30px;
+    color: #ecf0f1;
+    font-family: Arial, sans-serif;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* No need for !important if Material-UI default styles are managed properly */
+}
+
+.navbar .MuiToolbar-root {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0; /* Remove default toolbar padding */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    /*color: #ffffff;  White for logo text */
+    color: #FFC107;
+    font-size: 1.85rem;
+    margin-right: auto; /* Push links to the right */
+}
+
+.logo-container .MuiIconButton-root {
+    color: inherit; /* Inherit color from parent */
+    margin-right: 0.5rem;
+}
+
+/* Desktop Menu (hidden on small screens, shown on md and up) */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Mobile Menu Toggle (shown on small screens, hidden on md and up) */
+.mobile-menu {
+    display: flex;
+}
+
+/* Mobile Menu Dropdown */
+.MuiMenu-paper {
+    background-color: #004085 !important; /* Darker background for mobile menu */
+    color: white !important;
+}
+
+.MuiMenuItem-root {
+    color: white !important; /* Text color for menu items */
+}
+
+.MuiMenuItem-root:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important; /* Subtle hover effect */
+}
+
+
+/* Media Queries for Navbar */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Hide desktop links on small screens */
+    }
+
+    .mobile-menu {
+        display: block; /* Show mobile menu icon */
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-menu {
+        display: none; /* Hide mobile menu icon on larger screens */
+    }
+}
+
+
+/* Main Content Wrapper */
 .main-content {
     flex: 1;
 }
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(135deg, #3b82f6, #6b21a8);
+    position: relative; /* For z-index to work on children */
+    /*background: linear-gradient(135deg, #2196F3, #4CAF50); /* Fallback/overlay color */
+    background: rgba(0, 123, 255, 0.7); /* A semi-transparent primary blue overlay */
     color: white;
     padding: 4rem 2rem;
     text-align: center;
-    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    overflow: hidden; /* Ensure background image doesn't overflow */
+    min-height: 500px; /* Ensure enough height for the section */
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); /* Keeps the original clip-path */
+}
+
+.hero-background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Updated image path to Expense-My-Task.jpg */
+    background-image: url('/public/assets/expense-hero.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.5); /* Darken the image for better text readability */
+    z-index: 1; /* Place image below content */
 }
 
 .hero-container {
+    position: relative; /* Bring content above the background image */
+    z-index: 2; /* Place content above the image */
     max-width: 70rem;
     margin: 0 auto;
 }
@@ -30,33 +132,44 @@
     font-weight: 900;
     line-height: 1.2;
     margin-bottom: 1.5rem;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add subtle text shadow for readability */
 }
 
 .hero-description {
     font-size: 1.25rem;
-    color: #e2e8f0;
+    color: #e3f2fd;
     margin-bottom: 2rem;
 }
 
 .cta-button {
-    background-image: linear-gradient(to right, #8b5cf6, #3b82f6);
+    /*background-image: linear-gradient(to right, #4CAF50, #2196F3);*/
+    background-image: linear-gradient(to right, #28a745, #218838); /* A nice green gradient for primary action */
     color: white;
     padding: 1rem 2.5rem;
     border-radius: 30px;
     box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease-in-out;
+    text-decoration: none; /* Remove underline for Link */
 }
 
 .cta-button:hover {
     transform: scale(1.05);
     box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.4);
+    background-image: linear-gradient(to right, #218838, #1e7e34); /* Darker green on hover */
 }
 
 /* About Us Section */
 .about-us-section {
     padding: 4rem 2rem;
-    /*background-color: #1e293b;*/
-    color: white;
+    background-color: #e8f4f8; 
+    /* background-color: #ffffff; */
+    color: #333;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+    margin: 2rem auto;
+    max-width: 80rem;
+    border-radius: 10px;
+    text-align: center;
 }
 
 .about-us-container {
@@ -71,31 +184,53 @@
     margin-bottom: 1.5rem;
     text-transform: uppercase;
     letter-spacing: 1px;
+    /*color: #007bff;  Primary blue for titles */
+    color: #0056b3; /* Darker primary blue for section titles */
 }
 
 .about-us-description {
     font-size: 1.2rem;
     line-height: 1.8;
     margin-bottom: 1.5rem;
-    color: #cbd5e1;
+    /* color: #555; */
+    color: #444;
 }
 
 /* Features Section */
 .features-section {
     padding: 4rem 2rem;
+    /*background-color: #f9f9f9;  Keep white for contrast with About Us */
+    background-color: #ffffff; /*White background to alternate with other sections */
+    color: #333;
 }
 
 .features-container {
-    max-width: 80rem;
+    max-width: 60rem;
     margin: 0 auto;
     text-align: center;
 }
 
 .features-title {
     font-size: 2.5rem;
-    color: white;
+    /*color: #007bff;  */
+    color: #0056b3; /* Darker primary blue for section titles */
     font-weight: 700;
     margin-bottom: 2rem;
+}
+
+.feature-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    flex-direction: column;
+}
+
+.feature-card-icon {
+    font-size: 3rem;
+    /*color: #28a745;  */
+    color: #28a745; /* Keep green for icons as it signifies success/positive action */
+    margin-bottom: 1rem;
 }
 
 .features-grid {
@@ -104,11 +239,102 @@
     gap: 2rem;
 }
 
+/* Feature Card specific styles (already good, just ensuring consistency) */
+.FeatureCardRoot { /* Ensure this applies to the styled component */
+    background-color: #ffffff; /* White background for individual cards */
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.08); /* Slightly stronger, more defined shadow */
+    border: none; /* Remove subtle border if shadow is prominent */
+}
+
+.FeatureCardRoot:hover {
+    transform: translateY(-8px); 
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15); 
+}
+
+.FeatureCardTitle {
+    color: #222; /* Slightly darker for titles within cards */
+}
+.FeatureCardDescription {
+    color: #666; /* Medium gray for descriptions */
+}
+
+/* How It Works Section */
+.how-it-works-section {
+    padding: 4rem 2rem;
+    /*background-color: #f0f8ff;  */
+    background-color: #e8f4f8; /* Consistent with About Us background */
+    color: #333;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+    margin: 2rem auto; /* Add margin for separation */
+    max-width: 80rem;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.how-it-works-container {
+    max-width: 70rem;
+    margin: 0 auto;
+}
+
+.how-it-works-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    /*color: #007bff;  */
+    color: #0056b3; /* Darker primary blue for titles */
+}
+
+.how-it-works-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.step-card {
+    /* background-color: #f8f9fa; */
+    background-color: #ffffff; /* White background for step cards for contrast */
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.step-card .step-icon {
+    color: #28a745; /* Green icon */
+    margin-bottom: 1.5rem;
+}
+
+.step-card h3 {
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.75rem;
+}
+
+.step-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
 /* Contact Section */
 .contact-section {
     padding: 4rem 2rem;
-    /*background-color: #111827;*/
-    color: white;
+    /*background-color: #ffffff;   */
+    /*background-color: #e6f7ff;   */
+    background-image: url('/public/assets/contact.jpg');
+    color: #333;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+    margin: 2rem auto;
+    max-width: 50rem;
+    border-radius: 10px;
+    text-align: center;
 }
 
 .contact-container {
@@ -122,39 +348,202 @@
     font-weight: 700;
     margin-bottom: 1.5rem;
     text-transform: uppercase;
+    /*color: #007bff;  */
+    color: #0056b3; /* Darker primary blue for titles */
 }
 
 .contact-description {
     font-size: 1.2rem;
     margin-bottom: 2.5rem;
-    color: #94a3b8;
+    color: #555;
 }
 
 .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.5rem; /* Spacing between form fields */
 }
 
-.contact-input {
-    background-color: #f9fafb;
+.contact-form .MuiInputBase-root {
+    background-color: #f0f8ff;  /*Light gray background for input fields */
     border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /* box-shadow: none; */
+    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.05); /* Subtle inner shadow */
+}
+
+.contact-form .MuiOutlinedInput-notchedOutline {
+    border-color: #a0d8ff !important; /* Lighter border for input */
+}
+
+.contact-form .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #007bff !important; /* Blue border on focus */
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2); /* Soft focus glow */
+}
+
+.contact-form .MuiInputLabel-root {
+    color: #666 !important; /* Label color */
+}
+
+.contact-form .MuiInputBase-input {
+    color: #333 !important; /* Input text color */
 }
 
 .contact-submit-button {
     align-self: center;
-    background-color: #2563eb;
+    background-color: #28a745; /* Green submit button */
     color: white;
     padding: 0.75rem 2.5rem;
     border-radius: 30px;
     font-size: 1.1rem;
     font-weight: 600;
     transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
 }
 
 .contact-submit-button:hover {
-    background-color: #1d4ed8;
-    transform: translateY(-3px);
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    background-color: #218838; /* Darker green on hover */
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #2c3e50; 
+    color: #ecf0f1;
+    padding: 3rem 2rem;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.footer-container {
+    max-width: 80rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 2rem;
+    gap: 2rem; /* Spacing between sections */
+}
+
+.footer-logo,
+.footer-links,
+.footer-social {
+    flex: 1; 
+    min-width: 200px; 
+    text-align: left; /* Align text within columns */
+}
+
+.footer-brand-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #FFC107; 
+    text-decoration: none;
+    margin-bottom: 1rem;
+    justify-content: center; 
+}
+
+.footer-brand-link svg {
+    font-size: 1.8rem; /* Adjust icon size */
+}
+
+.footer-tagline {
+    font-size: 0.95rem;
+    /* color: #bdc3c7; */
+    line-height: 1.6;
+    color: #b0bec5; /* Lighter gray for tagline */
+}
+
+.footer-links h4,
+.footer-social h4 {
+    font-size: 1.2rem;
+    /* color: #007bff;  */
+    color: white;
+    margin-bottom: 1.2rem;
+    font-weight: 600;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links ul li a {
+    /* color: #ecf0f1; */
+    color: #b0bec5;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links ul li a:hover {
+    color: #64b5f6; /* Lighter blue on hover for links */
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center; 
+    gap: 1.2rem;
+    font-size: 1.8rem; 
+}
+
+.social-icons a {
+    /* color: #ecf0f1; */
+    color: #b0bec5;
+    font-size: 1.7rem;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    /* color: #007bff;  */
+    color: #64b5f6; /* Lighter blue on hover for social icons */
+}
+
+.footer-copyright {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #90a4ae;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1.5rem;
+}
+
+/* Media Queries for Footer */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-logo,
+    .footer-links,
+    .footer-social {
+        width: 100%;
+        /* text-align: center;
+        margin-bottom: 2rem; */
+        min-width: unset;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    /* .footer-brand-link {
+        justify-content: center;
+    } */
 }
